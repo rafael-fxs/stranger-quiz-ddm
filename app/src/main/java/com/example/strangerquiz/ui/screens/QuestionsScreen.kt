@@ -121,7 +121,7 @@ fun QuestionsScreen(user: String, viewModel: LeaderboardViewModel, navController
             ),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
         ) {
-            Text(text = if (showNextButton) "Next question" else "Enviar")
+            Text(text = if (showNextButton) "Next question" else "Send")
         }
     }
 }
