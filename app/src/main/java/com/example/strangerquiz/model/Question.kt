@@ -1,6 +1,4 @@
-package com.example.strangerquiz.models
-
-import java.math.BigDecimal
+package com.example.strangerquiz.model
 
 data class Question(
     val id: Int,

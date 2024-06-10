@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.strangerquiz.models.User
+import com.example.strangerquiz.model.User
 import com.example.strangerquiz.ui.screens.ui.theme.StrangerQuizTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
