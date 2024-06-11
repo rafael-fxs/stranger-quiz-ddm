@@ -6,7 +6,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,6 +43,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.strangerquiz.Constants
 import com.example.strangerquiz.ui.screens.ui.theme.StrangerQuizTheme
 import com.example.strangerquiz.viewmodel.LeaderboardViewModel
+import kotlin.math.pow
 
 @Composable
 fun QuestionsScreen(
@@ -60,6 +60,8 @@ fun QuestionsScreen(
     val shuffledOptions = remember(currentQuestion) { currentQuestion.options.shuffled() }
     val totalQuestions = questions.size
     var startTime by remember { mutableStateOf(System.currentTimeMillis()) }
+    var consecutiveCorrectAnswers by remember { mutableStateOf(0) }
+    var totalPoints by remember { mutableStateOf(0.0) }
 
     Column(
         modifier = Modifier
@@ -158,18 +160,26 @@ fun QuestionsScreen(
                 if (!showNextButton) {
                     val endTime = System.currentTimeMillis()
                     val responseTime = (endTime - startTime) / 1000.0
-                    val points =
-                        if (shuffledOptions[selectedOptionIndex].correct) 100.0 / responseTime else 0.0
+                    val basePoints = 100.0
+                    val bonusMultiplier = 1 + 0.5.pow(responseTime)
+                    var points = 0.0
+                    if (shuffledOptions[selectedOptionIndex].correct) {
+                        consecutiveCorrectAnswers++
+                        points = basePoints * bonusMultiplier
+                        if (consecutiveCorrectAnswers > 1)
+                            points + (20.0 * consecutiveCorrectAnswers)
+                    } else {
+                        consecutiveCorrectAnswers = 0
+                    }
 
-
-                    viewModel.updateLeaderboard(user, points)
-
+                    totalPoints += points
                     showNextButton = true
                     if (shuffledOptions[selectedOptionIndex].correct) {
                         correctAnswers++
                     }
                 } else {
                     if (currentQuestionIndex + 1 == totalQuestions) {
+                        viewModel.updateLeaderboard(user, totalPoints)
                         navController.navigate("leaderboard")
                     } else {
                         showNextButton = false
