@@ -42,10 +42,10 @@ class MainActivity : ComponentActivity() {
                         composable("signIn") {
                             SignInScreen(onSignInClick = { user ->
                                 navController.navigate("questions/${user.name}")
-                            })
+                            }, navController)
                         }
                         composable("leaderboard") {
-                            LeaderboardScreen(viewModel = leaderboardViewModel)
+                            LeaderboardScreen(viewModel = leaderboardViewModel, navController = navController)
                         }
                     }
                 }

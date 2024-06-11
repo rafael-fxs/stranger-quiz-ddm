@@ -10,12 +10,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class LeaderboardViewModel : ViewModel() {
-    private val _leaderboardEntries = MutableStateFlow<List<LeaderboardEntry>>(emptyList())
-    val leaderboardEntries: StateFlow<List<LeaderboardEntry>> get() = _leaderboardEntries
+    val leaderboardEntries = MutableStateFlow<List<LeaderboardEntry>>(emptyList())
 
     init {
         viewModelScope.launch {
-            _leaderboardEntries.value = LeaderboardRepository.getTopScores()
+            leaderboardEntries.value = LeaderboardRepository.getTopScores()
         }
     }
 
@@ -27,7 +26,14 @@ class LeaderboardViewModel : ViewModel() {
             } else if (existingEntry.score < points) {
                 LeaderboardRepository.update(existingEntry.copy(score = points))
             }
-            _leaderboardEntries.value = LeaderboardRepository.getTopScores()
+            leaderboardEntries.value = LeaderboardRepository.getTopScores()
+        }
+    }
+
+    fun clearLeaderboard() {
+        viewModelScope.launch {
+            LeaderboardRepository.clearAll()
+            leaderboardEntries.value = emptyList()
         }
     }
 }

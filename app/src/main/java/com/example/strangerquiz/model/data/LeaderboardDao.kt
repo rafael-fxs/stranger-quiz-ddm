@@ -20,4 +20,7 @@ interface LeaderboardDao {
 
     @Query("SELECT * FROM leaderboard WHERE name = :name LIMIT 1")
     fun getEntryByName(name: String): LeaderboardEntry?
+
+    @Query("DELETE FROM leaderboard")
+    fun clearAll()
 }

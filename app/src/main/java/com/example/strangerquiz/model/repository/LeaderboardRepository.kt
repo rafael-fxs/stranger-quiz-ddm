@@ -28,4 +28,8 @@ object LeaderboardRepository {
     fun getEntryByName(name: String): LeaderboardEntry? {
         return dao.getEntryByName(name)
     }
+
+    fun clearAll() {
+        dao.clearAll()
+    }
 }

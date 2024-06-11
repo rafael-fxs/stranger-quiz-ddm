@@ -53,6 +53,7 @@ android {
 dependencies {
     val navVersion = "2.7.7"
     val roomVersion = "2.6.1"
+    implementation("androidx.compose.animation:animation")
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")

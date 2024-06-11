@@ -1,7 +1,10 @@
 package com.example.strangerquiz.ui.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,22 +25,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.strangerquiz.R
 import com.example.strangerquiz.model.User
 import com.example.strangerquiz.ui.screens.ui.theme.StrangerQuizTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignInScreen(onSignInClick: (User) -> Unit) {
+fun SignInScreen(onSignInClick: (User) -> Unit, navController: NavHostController) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.padding(42.dp)) {
             var username by remember {
                 mutableStateOf("")
             }
-            AsyncImage(
-                "https://1000logos.net/wp-content/uploads/2021/04/Stranger-Things-logo.png",
+            Image(
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Logo Stranger Things",
                 Modifier
                     .fillMaxWidth()
@@ -53,6 +61,13 @@ fun SignInScreen(onSignInClick: (User) -> Unit) {
                 label = {
                     Text("Your Name")
                 },
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Red,
+                    focusedIndicatorColor = Color.Red,
+                    unfocusedIndicatorColor = Color.Red,
+                    focusedLabelColor = Color.Black,
+                    cursorColor = Color.Red
+                )
             )
             Button(
                 onClick = {
@@ -67,6 +82,17 @@ fun SignInScreen(onSignInClick: (User) -> Unit) {
             ) {
                 Text(text = "Start")
             }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Leaderboard",
+                color = Color.Red,
+                style = MaterialTheme.typography.titleSmall.copy(textDecoration = TextDecoration.Underline),
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate("leaderboard")
+                    }
+                    .align(Alignment.CenterHorizontally),
+            )
         }
     }
 }
@@ -74,11 +100,12 @@ fun SignInScreen(onSignInClick: (User) -> Unit) {
 @Preview
 @Composable
 fun SignInScreenPreview() {
+    val navController = rememberNavController()
     StrangerQuizTheme {
         Surface(
             modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
         ) {
-            SignInScreen(onSignInClick = {})
+            SignInScreen(onSignInClick = {}, navController)
         }
     }
 }
