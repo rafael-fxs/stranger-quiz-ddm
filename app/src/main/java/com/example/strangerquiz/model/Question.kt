@@ -3,7 +3,7 @@ package com.example.strangerquiz.model
 data class Question(
     val id: Int,
     val description: String,
-    val imageUrl: String,
+    val drawable: Int,
     val options: List<Option>,
 )
 

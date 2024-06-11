@@ -1,7 +1,7 @@
 package com.example.strangerquiz.model.repository
 
 import android.content.Context
-import com.example.strangerquiz.model.LeaderboardEntry
+import com.example.strangerquiz.model.data.LeaderboardEntity
 import com.example.strangerquiz.model.data.LeaderboardDao
 import com.example.strangerquiz.model.data.LeaderboardDatabase
 
@@ -13,19 +13,19 @@ object LeaderboardRepository {
         }
     }
 
-    fun add(lead: LeaderboardEntry) {
+    fun add(lead: LeaderboardEntity) {
         dao.insert(lead)
     }
 
-    fun update(lead: LeaderboardEntry) {
+    fun update(lead: LeaderboardEntity) {
         dao.update(lead)
     }
 
-    fun getTopScores(): List<LeaderboardEntry> {
+    fun getTopScores(): List<LeaderboardEntity> {
         return dao.getTopScores()
     }
 
-    fun getEntryByName(name: String): LeaderboardEntry? {
+    fun getEntryByName(name: String): LeaderboardEntity? {
         return dao.getEntryByName(name)
     }
 

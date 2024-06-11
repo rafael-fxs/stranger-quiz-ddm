@@ -79,6 +79,7 @@ fun SignInScreen(onSignInClick: (User) -> Unit, navController: NavHostController
                 ),
                 modifier = Modifier
                     .fillMaxWidth(),
+                enabled = username.trim().isNotEmpty()
             ) {
                 Text(text = "Start")
             }

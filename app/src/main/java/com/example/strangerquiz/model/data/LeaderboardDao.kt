@@ -5,21 +5,20 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.strangerquiz.model.LeaderboardEntry
 
 @Dao
 interface LeaderboardDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(entry: LeaderboardEntry): Long
+    fun insert(entry: LeaderboardEntity): Long
 
     @Update
-    fun update(entry: LeaderboardEntry)
+    fun update(entry: LeaderboardEntity)
 
     @Query("SELECT * FROM leaderboard ORDER BY score DESC LIMIT 10")
-    fun getTopScores(): List<LeaderboardEntry>
+    fun getTopScores(): List<LeaderboardEntity>
 
     @Query("SELECT * FROM leaderboard WHERE name = :name LIMIT 1")
-    fun getEntryByName(name: String): LeaderboardEntry?
+    fun getEntryByName(name: String): LeaderboardEntity?
 
     @Query("DELETE FROM leaderboard")
     fun clearAll()

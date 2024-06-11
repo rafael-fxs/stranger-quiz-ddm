@@ -1,16 +1,14 @@
 package com.example.strangerquiz.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.strangerquiz.model.LeaderboardEntry
+import com.example.strangerquiz.model.data.LeaderboardEntity
 import com.example.strangerquiz.model.repository.LeaderboardRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class LeaderboardViewModel : ViewModel() {
-    val leaderboardEntries = MutableStateFlow<List<LeaderboardEntry>>(emptyList())
+    val leaderboardEntries = MutableStateFlow<List<LeaderboardEntity>>(emptyList())
 
     init {
         viewModelScope.launch {
@@ -22,7 +20,7 @@ class LeaderboardViewModel : ViewModel() {
         viewModelScope.launch {
             val existingEntry = LeaderboardRepository.getEntryByName(user)
             if (existingEntry == null) {
-                LeaderboardRepository.add(LeaderboardEntry(name = user, score = points))
+                LeaderboardRepository.add(LeaderboardEntity(name = user, score = points))
             } else if (existingEntry.score < points) {
                 LeaderboardRepository.update(existingEntry.copy(score = points))
             }
